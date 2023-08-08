@@ -1,3 +1,4 @@
+#adapted from digital sreeni https://www.youtube.com/watch?v=J_XSd_u_Yew
 import tensorflow as tf
 import segmentation_models as sm
 import glob
@@ -7,12 +8,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 
-BACKBONE = 'efficientnetb1'
+BACKBONE = 'efficientnetb1' #backbones from segmnetation_models
 preprocess_input = sm.get_preprocessing(BACKBONE)
 
-# Resizing images is optional, CNNs are ok with large images
+# Resizing images is optional
 SIZE_X = 256  # Resize images (height = X, width = Y)
-SIZE_Y = 256
+SIZE_Y = 256  # 256 is the native size of the synthetic data
 
 # Function to read and preprocess images and masks
 def read_and_preprocess_images_masks(directory, size_x, size_y):
@@ -50,7 +51,7 @@ x_train, x_val, y_train, y_val = train_test_split(X, Y, test_size=0.2, random_st
 
 # Define model
 model = sm.Unet(BACKBONE, encoder_weights='imagenet')
-model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['mse'])
+model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['mse']) 
 
 print(model.summary())
 
